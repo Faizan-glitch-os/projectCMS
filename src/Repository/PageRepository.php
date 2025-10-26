@@ -10,7 +10,19 @@ class PageRepository
 
     public function __construct(private PDO $pdo) {}
 
-    public function fetchBySlug($slug): PageModel
+    public function fetchPages()
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM `pages` ORDER BY `id` ASC");
+        $stmt->execute();
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, PageModel::class);
+
+        $pages = $stmt->fetchAll();
+
+        return $pages;
+    }
+
+    public function fetchBySlug($slug): ?PageModel
     {
         $stmt = $this->pdo->prepare("SELECT * FROM `pages` WHERE `slug` = :slug");
         $stmt->bindValue(':slug', $slug);
@@ -20,6 +32,10 @@ class PageRepository
 
         $page = $stmt->fetch();
 
-        return $page;
+        if (!empty($page)) {
+            return $page;
+        } else {
+            return null;
+        }
     }
 }

@@ -6,11 +6,18 @@ use App\Repository\PageRepository;
 
 class PagesController extends AbstractRenderController
 {
-    public function __construct(private PageRepository $pageRepository) {}
+    public function __construct(private PageRepository $pageRepository)
+    {
+        parent::__construct($pageRepository);
+    }
 
     public function showPage(string $page): void
     {
         $content = $this->pageRepository->fetchBySlug($page);
+        if (empty($content)) {
+            $this->error_404();
+            return;
+        }
         $this->render($page, ['content' => $content]);
     }
 }
