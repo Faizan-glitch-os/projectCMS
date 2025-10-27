@@ -10,6 +10,31 @@ class PageRepository
 
     public function __construct(private PDO $pdo) {}
 
+    public function checkSlug($slug): bool
+    {
+        $stmt = $this->pdo->prepare("SELECT COUNT(`slug`) AS `count` FROM `pages`");
+        $stmt->execute();
+
+        $count = $stmt->fetchAll(PDO::FETCH_ASSOC)['count'];
+
+        return ($count >= 1);
+    }
+
+    public function createPage($title, $slug, $content): bool
+    {
+        $stmt = $this->pdo->prepare("INSERT INTO `pages` (`title`, `slug`, `content`) VALUES (:title, :slug, :content)");
+
+        $stmt->bindValue(':title', $title);
+        $stmt->bindValue(':slug', $slug);
+        $stmt->bindValue(':content', $content);
+
+        $stmt->execute();
+
+        $result = $stmt->fetch();
+
+        return ($result === 1);
+    }
+
     public function getAllEntries()
     {
         $stmt = $this->pdo->prepare("SELECT * FROM `pages` ORDER BY `id` ASC");

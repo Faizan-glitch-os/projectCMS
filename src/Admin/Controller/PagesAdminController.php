@@ -13,4 +13,19 @@ class PagesAdminController extends AbstractAdminController
         $entries = $this->pageRepository->getAllEntries();
         $this->render('index', ['entries' => $entries]);
     }
+
+    public function create()
+    {
+        if (!empty($_POST)) {
+            $title = @(string) ($_POST['title'] ?? '');
+            $slug = @(string) ($_POST['slug'] ?? '');
+            $content = @(string) ($_POST['content'] ?? '');
+
+            if (!empty($this) && !empty($slug) && !empty($content)) {
+                $this->pageRepository->createPage($title, $slug, $content);
+            }
+        }
+
+        $this->render('create', []);
+    }
 }
