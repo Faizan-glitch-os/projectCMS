@@ -10,6 +10,7 @@ class PageRepository
 
     public function __construct(private PDO $pdo) {}
 
+    // check if slug exist
     public function checkSlug($slug): bool
     {
         $stmt = $this->pdo->prepare("SELECT COUNT(`slug`) AS `count` FROM `pages`");
@@ -20,6 +21,7 @@ class PageRepository
         return ($count >= 1);
     }
 
+    // create new page
     public function createPage($title, $slug, $content): bool
     {
         $stmt = $this->pdo->prepare("INSERT INTO `pages` (`title`, `slug`, `content`) VALUES (:title, :slug, :content)");
@@ -35,6 +37,7 @@ class PageRepository
         return ($result === 1);
     }
 
+    // get all the pages
     public function getAllEntries()
     {
         $stmt = $this->pdo->prepare("SELECT * FROM `pages` ORDER BY `id` ASC");
@@ -47,6 +50,7 @@ class PageRepository
         return $entries;
     }
 
+    // fetch all the pages
     public function fetchPages()
     {
         $stmt = $this->pdo->prepare("SELECT * FROM `pages` ORDER BY `id` ASC");
@@ -59,6 +63,7 @@ class PageRepository
         return $pages;
     }
 
+    // fetch page by slug
     public function fetchBySlug($slug): ?PageModel
     {
         $stmt = $this->pdo->prepare("SELECT * FROM `pages` WHERE `slug` = :slug");
