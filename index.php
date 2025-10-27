@@ -3,25 +3,29 @@
 
 require __DIR__ . '/inc/all.inc.php';
 
-$Container = new \App\Support\Container;
+$container = new \App\Support\container;
 
-$Container->bind('pdo', function () {
+$container->bind('pdo', function () {
     return require_once __DIR__ . '/inc/db-connect.inc.php';
 });
 
-$Container->bind('pageRepository', function () use ($Container) {
-    $pdo = $Container->get('pdo');
+$container->bind('pageRepository', function () use ($container) {
+    $pdo = $container->get('pdo');
     return new \App\Repository\PageRepository($pdo);
 });
 
-$Container->bind('pagesController', function () use ($Container) {
-    $pageRepository = $Container->get('pageRepository');
+$container->bind('pagesController', function () use ($container) {
+    $pageRepository = $container->get('pageRepository');
     return new \App\Frontend\Controller\PagesController($pageRepository);
 });
 
-$Container->bind('notFoundController', function () use ($Container) {
-    $pageRepository = $Container->get('pageRepository');
+$container->bind('notFoundController', function () use ($container) {
+    $pageRepository = $container->get('pageRepository');
     return new \App\Frontend\Controller\NotFoundController($pageRepository);
+});
+
+$container->bind('adminController', function () {
+    return new \App\Admin\Controller\AdminController;
 });
 
 $route = (string) ($_GET['route'] ?? 'pages');
@@ -30,9 +34,12 @@ if ($route === 'pages') {
 
     $page = (string) ($_GET['page'] ?? 'index');
 
-    $PagesController = $Container->get('pagesController');
+    $PagesController = $container->get('pagesController');
     $PagesController->showPage($page);
+} else if ($route === 'admin/pages') {
+    $adminController = $container->get('adminController');
+    $adminController->index();
 } else {
-    $NotFoundController = $Container->get('notFoundController');
+    $NotFoundController = $container->get('notFoundController');
     $NotFoundController->error_404();
 }

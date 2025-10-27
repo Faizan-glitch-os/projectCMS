@@ -22,14 +22,16 @@
             <a href="index.php">CMS Project</a>
         </h1>
         <p>A custom-made CMS system</p>
-        <?php foreach ($navPages as $navPage): ?>
-            <a href="index.php?<?= http_build_query(['page' => $navPage->slug]) ?>"
-                <?php if ($navPage->id === $content->id): ?>
-                class="active"
-                <?php endif ?>>
-                <?= e($navPage->title) ?>
-            </a>
-        <?php endforeach ?>
+        <?php if (isset($navPages) && isset($content)): ?>
+            <?php foreach ($navPages as $navPage): ?>
+                <a href="index.php?<?= http_build_query(['page' => $navPage->slug]) ?>"
+                    <?php if (isset($content->id) && $navPage->id === $content->id): ?>
+                    class="active"
+                    <?php endif ?>>
+                    <?= e($navPage->title) ?>
+                </a>
+            <?php endforeach ?>
+        <?php endif ?>
     </header>
     <main>
         <?php echo $contents; ?>
