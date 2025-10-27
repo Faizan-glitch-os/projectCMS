@@ -26,6 +26,6 @@ abstract class AbstractRenderController
     {
         http_response_code(404);
 
-        $this->render('notFound', ['content' => []]);
+        $this->render('notFound', []);
     }
 }

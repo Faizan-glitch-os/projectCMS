@@ -10,6 +10,18 @@ class PageRepository
 
     public function __construct(private PDO $pdo) {}
 
+    public function getAllEntries()
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM `pages` ORDER BY `id` ASC");
+        $stmt->execute();
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, PageModel::class);
+
+        $entries = $stmt->fetchAll();
+
+        return $entries;
+    }
+
     public function fetchPages()
     {
         $stmt = $this->pdo->prepare("SELECT * FROM `pages` ORDER BY `id` ASC");
