@@ -13,12 +13,13 @@ class PageRepository
     // check if slug exist
     public function checkSlug($slug): bool
     {
-        $stmt = $this->pdo->prepare("SELECT COUNT(`slug`) AS `count` FROM `pages`");
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) AS `count` FROM `pages` WHERE `slug` = :slug");
+        $stmt->bindValue(':slug', $slug);
         $stmt->execute();
 
-        $count = $stmt->fetchAll(PDO::FETCH_ASSOC)['count'];
+        $count = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return ($count >= 1);
+        return ($count['count'] >= 1);
     }
 
     // create new page
@@ -35,6 +36,26 @@ class PageRepository
         $result = $stmt->fetch();
 
         return ($result === 1);
+    }
+
+    // edit page
+    public function editPage($title, $content, $id)
+    {
+        $stmt = $this->pdo->prepare("UPDATE `pages` SET `title` = :title,  `content` = :content WHERE `id` = :id");
+        $stmt->bindValue(':title', $title);
+        $stmt->bindValue(':content', $content);
+        $stmt->bindValue(':id', $id);
+
+        $stmt->execute();
+    }
+
+    // delete page by id 
+    public function deleteById(int $id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM `pages` WHERE `id` = :id");
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        $stmt->execute();
     }
 
     // get all the pages
@@ -61,6 +82,24 @@ class PageRepository
         $pages = $stmt->fetchAll();
 
         return $pages;
+    }
+
+    // fetch by id
+    public function fetchById($id): ?PageModel
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM `pages` WHERE `id` = :id");
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, PageModel::class);
+
+        $page = $stmt->fetch();
+
+        if (!empty($page)) {
+            return $page;
+        } else {
+            return null;
+        }
     }
 
     // fetch page by slug
