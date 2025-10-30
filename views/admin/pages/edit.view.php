@@ -1,4 +1,4 @@
-<div class="container rounded-3 border border-2 p-4 my-4 bg-black opacity-75">
+<div class="container rounded-3 border border-2 p-4 my-4">
     <?php if (!empty($errors)): ?>
         <?php foreach ($errors as $error): ?>
             <ul class="list-unstyled">
@@ -7,7 +7,7 @@
         <?php endforeach ?>
     <?php endif ?>
     <div class="row">
-        <h2 class="text-white">Edit Page</h2>
+        <h2 class="text-black">Edit Page</h2>
     </div>
     <div class="row">
         <form class="form" method="POST" action="index.php?<?= http_build_query(['route' => 'admin/pages/edit', 'id' => e($toEdit->id)]) ?>">
@@ -16,7 +16,7 @@
             <?php endif ?>
 
             <div class="mb-3">
-                <label class="form-label text-white opacity-75" for="title">Title:</label>
+                <label class="form-label text-black opacity-75" for="title">Title:</label>
                 <input class="form-control" type="text"
                     id="title" name="title"
                     value="<?php if (isset($_POST['title'])) echo e($_POST['title']);
@@ -24,7 +24,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label text-white opacity-75" for="content">Content:</label>
+                <label class="form-label text-black opacity-75" for="content">Content:</label>
                 <textarea class="form-control" name="content"
                     id="content"
                     rows="5" required><?php if (isset($_POST['content'])) echo e($_POST['content']);
