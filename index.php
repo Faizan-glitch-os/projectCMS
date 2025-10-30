@@ -29,6 +29,17 @@ $container->bind('adminController', function () use ($container) {
     return new \App\Admin\Controller\PagesAdminController($pagesRepository);
 });
 
+$container->bind('authService', function () use ($container) {
+    $pdo = $container->get('pdo');
+
+    return new App\Admin\Support\AuthService($pdo);
+});
+
+$container->bind('loginController', function () use ($container) {
+    $authService = $container->get('authService');
+    return new App\Admin\Controller\LoginController($authService);
+});
+
 $route = (string) ($_GET['route'] ?? 'pages');
 
 if ($route === 'pages') {
@@ -37,6 +48,9 @@ if ($route === 'pages') {
 
     $PagesController = $container->get('pagesController');
     $PagesController->showPage($page);
+} else if ($route === 'admin/login') {
+    $loginController = $container->get('loginController');
+    $loginController->handleLogin();
 } else if ($route === 'admin/pages') {
     $adminController = $container->get('adminController');
     $adminController->index();

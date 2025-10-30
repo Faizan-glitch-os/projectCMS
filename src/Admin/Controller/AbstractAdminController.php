@@ -12,7 +12,7 @@ abstract class AbstractAdminController
 
         ob_start();
 
-        require_once __DIR__ . '/../../../views/admin/pages/' . $view . '.view.php';
+        require_once __DIR__ . '/../../../views/admin/' . $view . '.view.php';
 
         $contents = ob_get_clean();
 

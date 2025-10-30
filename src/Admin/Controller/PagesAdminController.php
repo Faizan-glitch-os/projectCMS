@@ -11,7 +11,7 @@ class PagesAdminController extends AbstractAdminController
     public function index()
     {
         $entries = $this->pageRepository->getAllEntries();
-        $this->render('index', ['entries' => $entries]);
+        $this->render('pages/index', ['entries' => $entries]);
     }
 
     public function create()
@@ -51,7 +51,7 @@ class PagesAdminController extends AbstractAdminController
             }
         }
 
-        $this->render('create', ['errors' => $errors]);
+        $this->render('pages/create', ['errors' => $errors]);
     }
 
     // delete a page
@@ -71,7 +71,7 @@ class PagesAdminController extends AbstractAdminController
     public function edit()
     {
         $id = @(int) ($_GET['id'] ?? 0);
-        $errors = '';
+        $errors = [];
 
 
         if (!empty($_POST)) {
@@ -83,12 +83,12 @@ class PagesAdminController extends AbstractAdminController
                 header('Location: index.php?' . http_build_query(['route' => 'admin/pages']));
                 return;
             } else {
-                $errors = 'Please enter all the fields';
+                $errors = ['Please enter all the fields'];
             }
         }
 
         $toEdit = $this->pageRepository->fetchById($id);
 
-        $this->render('edit', ['toEdit' => $toEdit, 'errors' => $errors]);
+        $this->render('pages/edit', ['toEdit' => $toEdit, 'errors' => $errors]);
     }
 }
