@@ -52,15 +52,27 @@ if ($route === 'pages') {
     $loginController = $container->get('loginController');
     $loginController->handleLogin();
 } else if ($route === 'admin/pages') {
+    $authService = $container->get('authService');
+    $authService->ensureLogin();
+
     $adminController = $container->get('adminController');
     $adminController->index();
 } else if ($route === 'admin/pages/create') {
+    $authService = $container->get('authService');
+    $authService->ensureLogin();
+
     $adminController = $container->get('adminController');
     $adminController->create();
 } else if ($route === 'admin/pages/delete') {
+    $authService = $container->get('authService');
+    $authService->ensureLogin();
+
     $adminController = $container->get('adminController');
     $adminController->delete();
 } else if ($route === 'admin/pages/edit') {
+    $authService = $container->get('authService');
+    $authService->ensureLogin();
+
     $adminController = $container->get('adminController');
     $adminController->edit();
 } else {

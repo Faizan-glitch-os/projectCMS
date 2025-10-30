@@ -15,22 +15,41 @@ class AuthService
             return false;
         }
 
-        $stmt = $this->pdo->prepare("SELECT `password` FROM `admin` WHERE `email` = :email");
+        $stmt = $this->pdo->prepare("SELECT `id`, `password` FROM `admin` WHERE `email` = :email");
         $stmt->bindValue(':email', $email);
         $stmt->execute();
 
-        $hash = $stmt->fetch(PDO::FETCH_ASSOC)['password'];
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        var_dump($hash);
+        $hash = $result['password'];
 
         if ($hash == false) {
             return false;
         }
 
         if (password_verify($password, $hash)) {
+            session_start();
+            $_SESSION['adminId'] = $result['id'];
+            session_regenerate_id(true);
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function isLoggedIn()
+    {
+        session_start();
+        return !empty($_SESSION['adminId']);
+    }
+
+    public function ensureLogin()
+    {
+        $success = $this->isLoggedIn();
+
+        if (empty($success)) {
+            header('Location: index.php?' . http_build_query(['route' => 'admin/login']));
+            die;
         }
     }
 }

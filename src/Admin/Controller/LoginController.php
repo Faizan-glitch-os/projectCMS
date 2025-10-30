@@ -11,10 +11,14 @@ class LoginController extends AbstractAdminController
 
     public function handleLogin()
     {
+        if ($this->authService->isLoggedIn()) {
+            header('Location: index.php?' . http_build_query(['route' => 'admin/pages']));
+            return;
+        }
         $errors = [];
 
         if (!empty($_POST)) {
-            $email = (string) ($_POST['email'] ?? '');
+            $email = (string) e(($_POST['email'] ?? ''));
             $password = (string) ($_POST['password'] ?? '');
 
             if (!empty($email) && !empty($password)) {
