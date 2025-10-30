@@ -59,4 +59,13 @@ class AuthService
             die;
         }
     }
+
+    public function logout()
+    {
+        $this->ensureSession();
+        if ($this->isLoggedIn()) {
+            unset($_SESSION['adminId']);
+            session_regenerate_id(true);
+        }
+    }
 }

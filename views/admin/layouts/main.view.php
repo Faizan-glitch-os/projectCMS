@@ -18,9 +18,13 @@
 <body>
     <header class="container-fluid text-center bg-black opacity-75 py-4">
         <h1>
-            <a class="diplay-1 text-white" href="index.php">CMS: Admin</a>
+            <a class="diplay-1 text-white link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="index.php">CMS: Admin</a>
         </h1>
-        <p class="fs-3 text-white opacity-75">Admin Page</p>
+        <?php if (!empty($loggedIn)): ?>
+            <a class="btn btn-danger mt-1" href="index.php?<?= http_build_query(['route' => 'admin/logout']) ?>">
+                Logout
+            </a>
+        <?php endif ?>
 
     </header>
     <main>

@@ -26,7 +26,8 @@ $container->bind('notFoundController', function () use ($container) {
 
 $container->bind('adminController', function () use ($container) {
     $pagesRepository = $container->get('pageRepository');
-    return new \App\Admin\Controller\PagesAdminController($pagesRepository);
+    $authService = $container->get('authService');
+    return new \App\Admin\Controller\PagesAdminController($pagesRepository, $authService);
 });
 
 $container->bind('authService', function () use ($container) {
@@ -51,6 +52,9 @@ if ($route === 'pages') {
 } else if ($route === 'admin/login') {
     $loginController = $container->get('loginController');
     $loginController->handleLogin();
+} else if ($route === 'admin/logout') {
+    $loginController = $container->get('loginController');
+    $loginController->handleLogout();
 } else if ($route === 'admin/pages') {
     $authService = $container->get('authService');
     $authService->ensureLogin();
