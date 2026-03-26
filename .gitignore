@@ -1,10 +1,25 @@
-# Vendor dependencies
-vendor/
-
-# Environment variables
+# Environment files
 .env
+.env.*
+!.env.example
 
-# IDE files
+# phpMyAdmin (per-project installation)
+.phpmyadmin_server/
+phpmyadmin_server/
+phpmyadmin/
+*.zip
+*.gz
+
+# Logs
+logs/
+*.log
+
+# Cache
+cache/
+tmp/
+*.cache
+
+# IDE
 .vscode/
 .idea/
 
@@ -12,12 +27,11 @@ vendor/
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
+# Composer
+vendor/
+composer.lock
 
-# Uploaded files
+# Uploads
 uploads/
-
-# Database files
-*.sql
-*.db
+media/
+files/

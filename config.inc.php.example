@@ -1,0 +1,25 @@
+<?php
+/**
+ * phpMyAdmin configuration example
+ * Copy this to .phpmyadmin_server/public/config.inc.php and update with your credentials
+ */
+
+$cfg['blowfish_secret'] = 'change_this_to_a_random_string_' . md5(__DIR__);
+
+$i = 1;
+$cfg['Servers'][$i]['auth_type'] = 'cookie';
+$cfg['Servers'][$i]['host'] = '127.0.0.1';
+$cfg['Servers'][$i]['port'] = '3306';
+$cfg['Servers'][$i]['user'] = 'cms';  // Change to your DB user
+$cfg['Servers'][$i]['password'] = '';  // Change to your DB password
+$cfg['Servers'][$i]['compress'] = false;
+$cfg['Servers'][$i]['AllowNoPassword'] = false;
+$cfg['Servers'][$i]['only_db'] = 'cms';  // Change to your database name
+$cfg['Servers'][$i]['hide_db'] = '(information_schema|performance_schema|mysql|sys)';
+$cfg['TempDir'] = __DIR__ . '/tmp';
+$cfg['UploadDir'] = __DIR__ . '/upload';
+$cfg['SaveDir'] = __DIR__ . '/save';
+$cfg['DefaultLang'] = 'en';
+$cfg['ServerDefault'] = 1;
+$cfg['NavigationDisplayLogo'] = false;
+$cfg['Title'] = 'CMS Project Database';
