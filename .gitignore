@@ -1,0 +1,23 @@
+# Vendor dependencies
+vendor/
+
+# Environment variables
+.env
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Uploaded files
+uploads/
+
+# Database files
+*.sql
+*.db

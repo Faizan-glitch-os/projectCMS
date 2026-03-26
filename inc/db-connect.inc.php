@@ -1,7 +1,13 @@
 <?php
 
+$host = getenv('DB_HOST');
+$name = getenv('DB_NAME');
+$user = getenv('DB_USER');
+$password = getenv('DB_PASSWROD');
+
 try {
-    $pdo = new PDO('mysql:host=localhost;dbname=cms;charset=utf8mb4', 'cms', 'w6@qA@FxAI7aicxX', [
+    $pdo = new PDO("mysql:host=$host;dbname=$name;charset=utf8mb4", $user, $password, 
+    [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
 } catch (PDOException $e) {
