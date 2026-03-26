@@ -20,15 +20,7 @@ if [ ! -d "public" ]; then
     cd public
     mkdir -p tmp upload save
     chmod 755 tmp upload save
-    
-    # Create config from example if exists
-    if [ -f "../../config.inc.php.example" ]; then
-        cp "../../config.inc.php.example" config.inc.php
-        echo "✅ Config created from example"
-    else
-        echo "⚠️ No config.inc.php.example found, please create one"
-    fi
-    cd ..
+
 fi
 
 cd ..
